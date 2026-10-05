@@ -12,6 +12,7 @@ class MiniMaxH3AutoDirectorNode:
     Converts simple plain-text actions into strictly formatted MiniMax H3 prompts.
     Zero tags required from the user.
     """
+    OUTPUT_NODE = True
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -277,13 +278,14 @@ class MiniMaxH3AutoDirectorNode:
             f"A gentle, subtle acoustic piano accompaniment at a slow tempo, complementing the mood without overpowering dialogue."
         )
 
-        return (prompt,)
+        return {"ui": {"text": [prompt]}, "result": (prompt,)}
 
 
 class MiniMaxH3ShotNode:
     """
     Manual Shot Builder Node for modular shot-by-shot workflows.
     """
+    OUTPUT_NODE = True
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -325,9 +327,8 @@ class MiniMaxH3ShotNode:
         if dialogue_language != "None" and dialogue_text.strip():
             shot_str += f" <Subject 1> (S1) speaks with synchronized lip movement, <d>[{dialogue_language}] {dialogue_text.strip()}</d>."
 
-        if previous_shots and previous_shots.strip():
-            return (f"{previous_shots.strip()}\n{shot_str}",)
-        return (shot_str,)
+        final_result = f"{previous_shots.strip()}\n{shot_str}" if (previous_shots and previous_shots.strip()) else shot_str
+        return {"ui": {"text": [final_result]}, "result": (final_result,)}
 
 
 NODE_CLASS_MAPPINGS = {
