@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# ComfyUI and IDEs
+.vscode/
+.idea/
+*.swp
+*~
+
+# Local Agent artifacts
+.agents/
+skills-lock.json
+
+# Logs
+*.log
